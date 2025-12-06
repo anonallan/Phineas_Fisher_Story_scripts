@@ -1,0 +1,69 @@
+transfer() {
+    # Show usage if no arguments
+    [[ $# -eq 0 ]] && {
+        echo -e >&2 "Usage:\n    transfer [file/directory]\n    transfer <FILENAME>"
+        return 255
+    }
+
+    # If input is from stdin (pipe)
+    [[ ! -t 0 ]] && {
+        curl --http1.1 -F reqtype=fileupload -F time=72h -F "fileToUpload=@-" \
+            https://litterbox.catbox.moe/resources/internals/api.php
+        return
+    }
+
+    # If file/directory doesn't exist
+    [[ ! -e "$1" ]] && {
+        echo -e >&2 "Not found: $1"
+        return 255
+    }
+
+    # If it's a directory, tar+gzip it before upload
+    if [[ -d "$1" ]]; then
+        (cd "${1}/.." && tar czf - "${1##*/}") | \
+        curl --http1.1 -F reqtype=fileupload -F time=72h -F "fileToUpload=@-" \
+            https://litterbox.catbox.moe/resources/internals/api.php
+        return
+    fi
+
+    # Otherwise, upload the file directly
+    curl --http1.1 -F reqtype=fileupload -F time=72h -F "fileToUpload=@${1}" \
+        https://litterbox.catbox.moe/resources/internals/api.php
+}
+
+
+
+
+
+
+
+transfer2() {
+    # Show usage if no arguments
+    [[ $# -eq 0 ]] && {
+        echo -e >&2 "Usage:\n    transfer [file/directory]\n    transfer <FILENAME>"
+        return 255
+    }
+
+    # If input is from stdin (pipe)
+    [[ ! -t 0 ]] && {
+        curl --http1.1 -F "file=@-" https://0x0.st
+        return
+    }
+
+    # If file/directory doesn't exist
+    [[ ! -e "$1" ]] && {
+        echo -e >&2 "Not found: $1"
+        return 255
+    }
+
+    # If it's a directory, tar+gzip it before upload
+    if [[ -d "$1" ]]; then
+        (cd "${1}/.." && tar czf - "${1##*/}") | \
+        curl --http1.1 -F "file=@-" https://0x0.st
+        return
+    fi
+
+    # Otherwise, upload the file directly
+    curl --http1.1 -F "file=@${1}" https://0x0.st
+}
+

@@ -1,0 +1,2 @@
+webtunnel [2001:db8:7470:8ef4:8b7f:2051:9c5d:5f5c]:443 43C74D321B92879B671F355B0F98AFECFB6B6186 url=https://jochenkessler.de/RKQFDaAZZXnjyFBXVbbTAz0K ver=0.0.2
+webtunnel [2001:db8:63b4:6bd7:a357:7858:898e:718c]:443 059AEB126918A33B8246E8136D565FF57753D5CF url=https://alwaysnewbie.eu.org/homesweethome ver=0.0.2
